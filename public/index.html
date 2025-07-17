@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <header class="mb-5 text-center">
+            <h1>Digitales Rezeptbuch</h1>
+            <p class="lead">Leckere Rezepte auf einen Blick.</p>
+        </header>
+
+        <main>
+            <div id="rezept-galerie" class="row"></div>
+        </main>
+    </div>
+
+    <!-- Bootstrap Modal (am Anfang unsichtbar) -->
+    <div class="modal fade" id="rezept-modal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rezept-modal-title"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="rezept-modal-body"></div>
+            </div>
+        </div>
+    </div>
+    <hr>
+<h3>Neues Rezept hinzufügen</h3>
+<form id="neuesRezeptForm" class="mb-5">
+  <div class="mb-3">
+    <label for="name" class="form-label">Name des Rezepts</label>
+    <input type="text" class="form-control" id="name" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="bild_url" class="form-label">Bild-URL</label>
+    <input type="url" class="form-control" id="bild_url" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="zutaten" class="form-label">Zutaten (mit Komma trennen)</label>
+    <textarea class="form-control" id="zutaten" rows="2" required></textarea>
+  </div>
+
+  <div class="mb-3">
+    <label for="anleitung" class="form-label">Anleitung</label>
+    <textarea class="form-control" id="anleitung" rows="3" required></textarea>
+  </div>
+
+  <div class="mb-3">
+    <label for="zubereitungszeit" class="form-label">Zubereitungszeit</label>
+    <input type="text" class="form-control" id="zubereitungszeit" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="schwierigkeit" class="form-label">Schwierigkeit</label>
+    <select class="form-control" id="schwierigkeit" required>
+      <option value="Einfach">Einfach</option>
+      <option value="Mittel">Mittel</option>
+      <option value="Schwierig">Schwierig</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="bewertung" class="form-label">Bewertung (1–5)</label>
+    <input type="number" class="form-control" id="bewertung" min="1" max="5" required>
+  </div>
+
+  <button type="submit" class="btn btn-success">Rezept speichern</button>
+</form>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

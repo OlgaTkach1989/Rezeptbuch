@@ -166,6 +166,36 @@ function zeigeRezeptDetails(rezeptId) {
     rezeptModal.show();
 }
 
+document.getElementById('neuesRezeptForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const neuesRezept = {
+        name: document.getElementById('name').value,
+        bild_url: document.getElementById('bild_url').value,
+        zutaten: document.getElementById('zutaten').value.split(',').map(z => z.trim()),
+        anleitung: document.getElementById('anleitung').value,
+        zubereitungszeit: document.getElementById('zubereitungszeit').value,
+        schwierigkeit: document.getElementById('schwierigkeit').value,
+        bewertung: parseInt(document.getElementById('bewertung').value)
+    };
+
+    try {
+        const response = await fetch('/api/rezepte', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(neuesRezept)
+        });
+
+        if (!response.ok) throw new Error('Fehler beim Hinzufügen');
+
+        // Formular zurücksetzen
+        e.target.reset();
+
+
+    } catch (err) {
+        console.error('Fehler beim Speichern des Rezepts:', err);
+    }
+});
 
 // Initialer Aufruf
 renderRezepte();
