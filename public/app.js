@@ -4,7 +4,9 @@ const rezeptModalTitel = document.getElementById('rezept-modal-title');
 const rezeptModalBody = document.getElementById('rezept-modal-body');
 const rezeptModal = new bootstrap.Modal(document.getElementById('rezept-modal'));
 
-
+let zuLoeschendeRezeptId = null;
+const bestaetigungsModal = new bootstrap.Modal(document.getElementById('bestaetigungsModal'));
+const bestaetigenLoeschenButton = document.getElementById('bestaetigenLoeschenButton');
 
 
 let rezepte = [];
@@ -31,6 +33,7 @@ async function ladeRezepte(zutat = '') {
     console.error('Fehler beim Laden der Rezepte:', error);
   }
 }
+
 
 document.getElementById('filter-button').addEventListener('click', () => {
   const zutat = document.getElementById('zutat-input').value;
@@ -63,6 +66,7 @@ function renderRezepte() {
     button.addEventListener('click', async function (event) {
       event.stopPropagation(); 
       const id = this.dataset.id;
+      bestaetigungsModal.show();
       try {
         const response = await fetch(`/api/rezepte/${id}`, { method: 'DELETE' });
         if (response.ok) {
@@ -222,5 +226,27 @@ fetch('/api/rezepte?zutat=Spagetti')
 renderRezepte();
 
 
+bestaetigenLoeschenButton.addEventListener('click', async () => {
+  console.log("Klick auf JA – zu löschende ID:", zuLoeschendeRezeptId);
+
+  if (!zuLoeschendeRezeptId) return;
+
+  try {
+    const response = await fetch(`/api/rezepte/${zuLoeschendeRezeptId}`, {
+      method: 'DELETE'
+    });
+    if (response.ok) {
+      rezepte = rezepte.filter(r => (r._id || r.id) !== zuLoeschendeRezeptId);
+      renderRezepte(rezepte);
+      bestaetigungsModal.hide();
+    } else {
+      alert('Fehler beim Löschen.');
+    }
+  } catch (error) {
+    alert('Netzwerkfehler beim Löschen.');
+  }
+
+  zuLoeschendeRezeptId = null;
+});
 
 

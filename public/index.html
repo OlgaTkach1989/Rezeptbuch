@@ -32,9 +32,11 @@
         </div>
     </div>
     <hr>
+
+
 <h3>Neues Rezept hinzufügen</h3>
 <div class="input-group mb-3">
-  <input type="text" id="zutat-input" class="form-control" placeholder="Zutat eingeben (z.B. Ei)">
+  <input type="text" id="zutat-input" class="form-control" placeholder="Rezept oder Zutat eingeben">
   <button id="filter-button" class="btn btn-primary">Filtern</button>
 </div>
 <div id="rezept-container" class="row"></div>
@@ -80,9 +82,24 @@
 
   <button type="submit" class="btn btn-success">Rezept speichern</button>
 </form>
-
-
-
+    <!-- Bestätigungs-Modal -->
+<div class="modal fade" id="bestaetigungsModal" tabindex="-1" aria-labelledby="bestaetigungsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="bestaetigungsModalLabel">Rezept löschen</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
+      </div>
+      <div class="modal-body">
+        Bist du sicher, dass du dieses Rezept löschen willst?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+        <button type="button" class="btn btn-danger" id="bestaetigenLoeschenButton">Ja, löschen</button>
+      </div>
+    </div>
+  </div>
+</div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="app.js"></script>
 </body>
