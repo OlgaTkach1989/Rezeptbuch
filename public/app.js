@@ -16,11 +16,23 @@ async function ladeRezepte() {
   }
 }
 
-// вызов функции при загрузке страницы
 ladeRezepte();
 
+async function ladeRezepte(zutat = '') {
+  try {
+    const url = zutat ? `/api/rezepte?zutat=${encodeURIComponent(zutat)}` : '/api/rezepte';
+    const response = await fetch(url);
+    rezepte = await response.json();
+    zeigeRezepte(); // или renderRezepte(), если ты её используешь
+  } catch (error) {
+    console.error('Fehler beim Laden der Rezepte:', error);
+  }
+}
 
-
+document.getElementById('filter-button').addEventListener('click', () => {
+  const zutat = document.getElementById('zutat-input').value;
+  ladeRezepte(zutat);
+});
 
 
 // Schritt 3: Funktion, die die Rezept-Karten anzeigt.
