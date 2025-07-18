@@ -117,9 +117,26 @@ let rezepte = [
     },
 ];
 
-app.get('/api/rezepte',(req, res)=> {
+// app.get('/api/rezepte',(req, res)=> {
+    // res.json(rezepte);
+// });
+app.get('/api/rezepte', (req, res) => {
+    const { zutat } = req.query;
+
+    if (zutat) {
+       
+        const gefilterteRezepte = rezepte.filter(rezept =>
+            rezept.zutaten.some(z =>
+                z.toLowerCase().includes(zutat.toLowerCase())
+            )
+        );
+        return res.json(gefilterteRezepte);
+    }
+
+    
     res.json(rezepte);
 });
+
 
 app.post('/api/rezepte', (req, res) => {
     const rezept = req.body;
@@ -134,14 +151,32 @@ app.post('/api/rezepte', (req, res) => {
     res.status(201).json(rezept);
 });
 
+app.post('/api/rezepte/:id/rate', (req, res) => {
+  const rezeptId = parseInt(req.params.id);
+  const { rating } = req.body;
+
+  if (!rating || rating < 1 || rating > 5) {
+    return res.status(400).json({ error: 'Bewertung muss zwischen 1 und 5 sein.' });
+  }
+
+  const rezept = rezepte.find(r => r.id === rezeptId);
+  if (!rezept) {
+    return res.status(404).json({ error: 'Rezept nicht gefunden.' });
+  }
+
+  rezept.bewertung = rating;
+  return res.status(200).json({ message: 'Bewertung aktualisiert.', rezept });
+});
+
 app.delete('/api/rezepte/:id', (req, res) => {
     const id = parseInt(req.params.id);
     rezepte = rezepte.filter(rezept => rezept.id !== id);
-    res.status(204).send();
-    console.log('ID wurde gelöcht')
+    res.status(200).send();
+    console.log('Rezept gelöscht')
 });
 
 
 app.listen(port, () => {
     console.log(`Server läuft unter http://localhost:${port}`);
 });
+
