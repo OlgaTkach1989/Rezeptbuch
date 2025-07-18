@@ -4,13 +4,16 @@ const rezeptModalTitel = document.getElementById('rezept-modal-title');
 const rezeptModalBody = document.getElementById('rezept-modal-body');
 const rezeptModal = new bootstrap.Modal(document.getElementById('rezept-modal'));
 
+
+
+
 let rezepte = [];
 
 async function ladeRezepte() {
   try {
     const response = await fetch('/api/rezepte');
     rezepte = await response.json();
-    zeigeRezepte();
+    renderRezepte();
   } catch (error) {
     console.error('Fehler beim Laden der Rezepte:', error);
   }
@@ -23,7 +26,7 @@ async function ladeRezepte(zutat = '') {
     const url = zutat ? `/api/rezepte?zutat=${encodeURIComponent(zutat)}` : '/api/rezepte';
     const response = await fetch(url);
     rezepte = await response.json();
-    zeigeRezepte(); // или renderRezepte(), если ты её используешь
+    zeigeRezepte(); 
   } catch (error) {
     console.error('Fehler beim Laden der Rezepte:', error);
   }
@@ -37,23 +40,45 @@ document.getElementById('filter-button').addEventListener('click', () => {
 
 // Schritt 3: Funktion, die die Rezept-Karten anzeigt.
 function renderRezepte() {
-    rezeptGalerie.innerHTML = '';
-    rezepte.forEach(rezept => {
-        const rezeptKarteHTML = `
-            <div class="col-md-4 mb-4">
-                <div class="card shadow-sm h-100" style="cursor: pointer;" onclick="zeigeRezeptDetails(${rezept.id})">
-                    <img src="${rezept.bild_url}" class="card-img-top" alt="${rezept.name}" style="height: 200px; object-fit: cover;">
-                    <div class="card-body">
-                        <h5 class="card-title">${rezept.name}</h5>
-                    </div>
-                </div>
-            </div>
-        `;
-        rezeptGalerie.innerHTML += rezeptKarteHTML;
+  const rezeptGalerie = document.getElementById('rezept-container');
+  rezeptGalerie.innerHTML = '';
+
+  rezepte.forEach(rezept => {
+    const rezeptKarteHTML = `
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100" style="cursor: pointer;" onclick="zeigeRezeptDetails('${rezept._id || rezept.id}')">
+          <img src="${rezept.bild_url}" class="card-img-top" alt="${rezept.name}" style="height: 200px; object-fit: cover;">
+          <div class="card-body">
+            <h5 class="card-title">${rezept.name}</h5>
+            <button class="btn btn-danger btn-sm loeschen-button" data-id="${rezept._id || rezept.id}">Löschen</button>
+          </div>
+        </div>
+      </div>
+    `;
+    rezeptGalerie.innerHTML += rezeptKarteHTML;
+  });
+
+
+  document.querySelectorAll('.loeschen-button').forEach(button => {
+    button.addEventListener('click', async function (event) {
+      event.stopPropagation(); 
+      const id = this.dataset.id;
+      try {
+        const response = await fetch(`/api/rezepte/${id}`, { method: 'DELETE' });
+        if (response.ok) {
+          rezepte = rezepte.filter(r => (r._id || r.id) !== id);
+          renderRezepte();
+        } else {
+          alert('Fehler beim Löschen.');
+        }
+      } catch (error) {
+        alert('Netzwerkfehler beim Löschen.');
+      }
     });
+  });
 }
 
-
+  
 
 
 // Schritt 4: Funktion, die die Details eines Rezepts im Modal anzeigt.
@@ -145,6 +170,8 @@ function zeigeRezepte() {
 
 
 
+
+
 document.getElementById('neuesRezeptForm').addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -165,11 +192,14 @@ document.getElementById('neuesRezeptForm').addEventListener('submit', async (e) 
             body: JSON.stringify(neuesRezept)
         });
 
+        
+
         if (!response.ok) throw new Error('Fehler beim Hinzufügen');
 
         // Formular zurücksetzen
         e.target.reset();
-
+        rezepte.push(neuesRezept);
+        renderRezepte();
 
     } catch (err) {
         console.error('Fehler beim Speichern des Rezepts:', err);
