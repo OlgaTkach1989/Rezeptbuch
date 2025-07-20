@@ -5,6 +5,7 @@ const port = 3000;
 
 
 
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -117,9 +118,7 @@ let rezepte = [
     },
 ];
 
-app.get('/api/rezepte',(req, res)=> {
-    res.json(rezepte);
-});
+
 app.get('/api/rezepte', (req, res) => {
     const { zutat } = req.query;
 

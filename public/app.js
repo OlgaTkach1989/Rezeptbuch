@@ -13,7 +13,7 @@ let rezepte = [];
 
 async function ladeRezepte() {
   try {
-    const response = await fetch('/api/rezepte');
+    const response = await fetch('http://localhost:3000/api/rezepte');
     rezepte = await response.json();
     zeigeRezepte();
   } catch (error) {
@@ -25,7 +25,7 @@ ladeRezepte();
 
 async function ladeRezepte(zutat = '') {
   try {
-    const url = zutat ? `/api/rezepte?zutat=${encodeURIComponent(zutat)}` : '/api/rezepte';
+    const url = zutat ? `http://localhost:3000/api/rezepte?zutat=${encodeURIComponent(zutat)}` : 'http://localhost:3000/api/rezepte';
     const response = await fetch(url);
     rezepte = await response.json();
     zeigeRezepte(); 
@@ -143,7 +143,7 @@ document.getElementById('neuesRezeptForm').addEventListener('submit', async (e) 
     };
 
     try {
-        const response = await fetch('/api/rezepte', {
+        const response = await fetch('http://localhost:3000/api/rezepte', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(neuesRezept)
@@ -164,7 +164,7 @@ document.getElementById('neuesRezeptForm').addEventListener('submit', async (e) 
     }
 });
 
-fetch('/api/rezepte/1/rate', {
+fetch('http://localhost:3000/api/rezepte/1/rate', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({ rating: 5 })
@@ -172,12 +172,11 @@ fetch('/api/rezepte/1/rate', {
 .then(res => res.json())
 .then(data => console.log(data));
 
-fetch('/api/rezepte?zutat=Spagetti')
+fetch('http://localhost:3000/api/rezepte?zutat=Spagetti')
   .then(res => res.json())
   .then(data => console.log(data));
 
-// Initialer Aufruf
-zeigeRezepte();
+
 
 
 
@@ -185,7 +184,7 @@ bestaetigenLoeschenButton.addEventListener('click', async () => {
   if (!zuLoeschendeRezeptId) return;
 
   try {
-    const response = await fetch(`/api/rezepte/${zuLoeschendeRezeptId}`, {
+    const response = await fetch(`http://localhost:3000/api/rezepte/${zuLoeschendeRezeptId}`, {
       method: 'DELETE'
     });
 
@@ -207,4 +206,3 @@ bestaetigenLoeschenButton.addEventListener('click', async () => {
 
   zuLoeschendeRezeptId = null;
 });
-
