@@ -120,21 +120,19 @@ let rezepte = [
 
 
 app.get('/api/rezepte', (req, res) => {
-    const { zutat } = req.query;
+  const { zutat, name } = req.query;
 
-    if (zutat) {
-       
-        const gefilterteRezepte = rezepte.filter(rezept =>
-            rezept.zutaten.some(z =>
-                z.toLowerCase().includes(zutat.toLowerCase())
-            )
-        );
-        return res.json(gefilterteRezepte);
-    }
+  const gefilterteRezepte = rezepte.filter(rezept => {
+    const passtZutat = !zutat || rezept.zutaten.some(z =>
+      z.toLowerCase().includes(zutat.toLowerCase())
+    );
+    const passtName = !name || rezept.name.toLowerCase().includes(name.toLowerCase());
+    return passtZutat || passtName;
+  });
 
-    
-    res.json(rezepte);
+  res.json(gefilterteRezepte);
 });
+
 
 
 app.post('/api/rezepte', (req, res) => {
