@@ -82,7 +82,7 @@ function zeigeRezeptDetails(rezeptId) {
     // Sternebewertung
     const sterne = '★'.repeat(rezept.bewertung) + '☆'.repeat(5 - rezept.bewertung);
     const infoHTML = `
-        <p><strong>Zubereitungszeit:</strong> ${rezept.zubereitungszeit}</p>
+        <p><strong>Zubereitungszeit:</strong> ${rezept.zeit}</p>
         <p><strong>Schwierigkeit:</strong> ${rezept.schwierigkeit}</p>
         <p><strong>Bewertung:</strong> <span style="color: gold;">${sterne}</span></p>
     `;

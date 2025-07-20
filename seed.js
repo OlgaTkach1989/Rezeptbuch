@@ -3,7 +3,6 @@ const { pool } = require('./db');
 
 let rezepte = [
   {
-        id: 1,
         name: "Spaghetti Carbonara",
         bild_url: "https://img.chefkoch-cdn.de/rezepte/1298241234947062/bilder/1590571/crop-960x540/carbonara-wie-bei-der-mamma-in-rom.jpg",
         zutaten: ["200g Spaghetti", "100g Pancetta", "2 Eigelb", "50g Parmesan"],
@@ -13,7 +12,6 @@ let rezepte = [
         bewertung: 5
     },
     {
-        id: 2,
         name: "Pfannkuchen",
         bild_url: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?q=80&w=2070",
         zutaten: ["250g Mehl", "2 Eier", "500ml Milch", "1 Prise Salz"],
@@ -23,7 +21,6 @@ let rezepte = [
         bewertung: 4
     },
     {
-        id: 3,
         name: "Bester Pizzateig",
         bild_url: "https://img.chefkoch-cdn.de/rezepte/4199371675773502/bilder/1494915/crop-642x428/bester-pizzateig.jpg",
         zutaten: ["500 g	Weizenmehl Type 405 oder 550", "300 g	Wasser, lauwarmes", "13 g	Salz", "20 g	Frischhefe oder 7 g Trockenhefe", "13 g	Olivenöl", "5 g	Zucker"],
@@ -34,7 +31,6 @@ let rezepte = [
     },
 
      {
-        id: 4,
         name: "Kartoffel-Hack-Auflauf mit Speckkruste",
         bild_url: "https://img.chefkoch-cdn.de/rezepte/1665531274697031/bilder/1075318/crop-642x428/kartoffel-hack-auflauf-mit-speckkruste.jpg",
         zutaten: ["2 große	Zwiebel(n)", "400 g	Hackfleisch, gemischt", "1 EL Tomatenmark", "Salz und Pfeffer, schwarzer", "200 g	Frühstücksspeck, in dünnen Scheiben", "750 g Kartoffel(n)", "2 EL	Mehl", "6 Scheibe/n	Raclettekäse", "evtl. Majoran zum Garnieren"],
@@ -45,7 +41,6 @@ let rezepte = [
     },
 
      {
-        id: 5,
         name: "Sauerkrautsuppe mit Paprika und Kasseler",
         bild_url: "https://img.chefkoch-cdn.de/images/crop-958x539/content/f/270734/42429a4d69/ck0317_fitgesund_sauerkrautsuppe.jpg",
         zutaten: ["etwas	Öl", "3	Frühlingszwiebel(n) oder 1 Zwiebel", "1	Paprikaschote(n), rote", "300 g	Kasseler ohne Knochen (Vegetarier können ohne Probleme das Kasseler weglassen!)", "500 g	Sauerkraut", "1 Liter	Gemüsebrühe", "200 g	Crème fraîche", "1 TL	Kräuter der Provence, getrocknet", "Salz und Pfeffer"],
@@ -56,7 +51,6 @@ let rezepte = [
     },
 
      {
-        id: 6,
         name: "Antipasti - Nudelsalat",
         bild_url: "https://img.chefkoch-cdn.de/images/crop-958x539/content/f/270734/1200x675/34e8172887/antipasti_nudelsalat.jpg",
         zutaten: ["250 g	Nudeln, vorzugsweise kurze (Penne, Rigatoni, Farfalle....) oder auch bunte Nudeln", "350 g	Gemüse (Antipasti - Gemüse) in Öl eingelegte, abgetropfte, gemischt wie z. B.", "Artischocke(n)", "Paprikaschote(n), (geröstete)", "Tomate(n), getrocknete", "1	Knoblauchzehe(n), zerdrückt (optional), evtl. mehr", "2 TL	Kapern", "15	Oliven ohne Stein, grün und schwarz. evtl. mehr", "4 EL	Kräuter, frische (Basilikum, Petersilie, Minze...)", "2 EL	Essig, evtl. 3 (Weißweinessig und Balsamico (weiß) gemischt)", "2 TL	Pesto (Basilikumpesto, Bärlauchpesto...)", "1 TL, gestr. Salz", "Pfeffer, aus der Mühle", "Cayennepfeffer oder", "Chili, aus der Mühle oder", "Paprikapulver, scharf", "etwas	Zucker", "etwas	Zitronensaft"],
@@ -67,7 +61,6 @@ let rezepte = [
     },
 
      {
-        id: 7,
         name: "Spaghetti aglio, olio e peperoncino",
         bild_url: "https://img.chefkoch-cdn.de/images/crop-958x539/content/f/270734/1200x675/753648acba/spaghetti_aglio_olio.jpg",
         zutaten: ["300 g	Spaghetti", "4	Knoblauchzehe(n)", "½ Bund	Petersilie, glatte", "3	Chilischote(n), getrocknete", "1	Bio-Zitrone(n)", "6 EL	Olivenöl", "etwas	Meersalz und Pfeffer, bunter, aus der Mühle"],
@@ -78,7 +71,6 @@ let rezepte = [
     },
 
      {
-        id: 8,
         name: "15 Minuten Gemüse-Nudel-Suppe",
         bild_url: "https://img.chefkoch-cdn.de/images/crop-958x539/content/f/270734/1200x675/4bc4c46c35/15-minuten-gemuese-nudel-suppe.jpg",
         zutaten: ["1,4 Liter	Gemüsebouillon, selbstgemacht oder Brühwürfel", "100 g	Nudeln", "1 kleine	Zwiebel(n)", "2	Möhre(n)", "1 m.-große	Zucchini", "1	Paprikaschote(n), gelbe", "4	Tomate(n), reife", "etwas	Pfeffer und weitere Gewürze nach Belieben und Geschmack", "etwas	Schnittlauch, fein geschnitten", "etwas	Petersilie, fein geschnitten", "etwas	Öl zum Braten"],
@@ -89,7 +81,6 @@ let rezepte = [
     },
 
      {
-        id: 9,
         name: "Pestofisch im Backofen",
         bild_url: "https://img.chefkoch-cdn.de/images/crop-958x539/content/f/270734/7d714e5d30/h5_mf_pestofisch_im_backofen.jpg",
         zutaten: ["4	Fischfilet(s) (beliebiger Seefisch, z.B. Rotbarsch)", "Zitronensaft", "1 Glas	Pesto", "100 g	Schafskäse", "13 g	Olivenöl", "3 EL	Crème fraîche", "3 EL	Emmentaler, geriebener", "1 EL	Olivenöl", "1 Bund	Petersilie", "1	Knoblauchzehe(n)", "500 g	Kartoffel(n), gegart und in Würfel geschnitten", "Thymian", "Olivenöl", "Salz", "Fett für die Form", "evtl.	Weißwein"],
@@ -100,12 +91,12 @@ let rezepte = [
     },
 ];
 
+
 async function seed() {
   const conn = await pool.getConnection();
 
   try {
     for (const rezept of rezepte) {
-      // Вставляем в таблицу rezepte
       const [rezeptResult] = await conn.query(
         `INSERT INTO rezepte (name, bild_url, anleitung, zeit, schwierigkeit, bewertung)
          VALUES (?, ?, ?, ?, ?, ?)`,
@@ -114,18 +105,19 @@ async function seed() {
 
       const rezeptId = rezeptResult.insertId;
 
-      // Вставляем в таблицу zutaten
       for (const zutat of rezept.zutaten) {
         await conn.query(
           `INSERT INTO zutaten (name, rezept_id) VALUES (?, ?)`,
           [zutat, rezeptId]
         );
       }
+
+      console.log(`✅ Hinzugefügt: ${rezept.name}`);
     }
 
-    console.log(" Daten wurden erfolgreich eingefügt!");
+    console.log("🎉 Alle Rezepte erfolgreich eingefügt!");
   } catch (err) {
-    console.error(" Fehler beim Einfügen:", err);
+    console.error("❌ Fehler beim Einfügen:", err);
   } finally {
     conn.release();
     process.exit();

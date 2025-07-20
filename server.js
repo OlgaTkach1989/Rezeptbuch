@@ -22,24 +22,28 @@ app.get('/api/rezepte', async (req, res) => {
     try {
         let sql = `
             SELECT rezepte.id, rezepte.name, rezepte.bild_url, rezepte.anleitung, rezepte.bewertung,
-                   zutaten.name AS zutat
+                rezepte.zeit, rezepte.schwierigkeit,
+                zutaten.name AS zutat
             FROM rezepte
             LEFT JOIN zutaten ON rezepte.id = zutaten.rezept_id
         `;
+
         const [rows] = await pool.query(sql);
 
         const rezepteMap = new Map();
 
         for (const row of rows) {
             if (!rezepteMap.has(row.id)) {
-                rezepteMap.set(row.id, {
-                    id: row.id,
-                    name: row.name,
-                    bild_url: row.bild_url,
-                    anleitung: row.anleitung,
-                    bewertung: row.bewertung,
-                    zutaten: [],
-                });
+               rezepteMap.set(row.id, {
+                id: row.id,
+                name: row.name,
+                bild_url: row.bild_url,
+                anleitung: row.anleitung,
+                bewertung: row.bewertung,
+                zeit: row.zeit,
+                schwierigkeit: row.schwierigkeit,
+                zutaten: [],
+            });
             }
             if (row.zutat) {
                 rezepteMap.get(row.id).zutaten.push(row.zutat);
