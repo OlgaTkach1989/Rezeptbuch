@@ -2,6 +2,26 @@ const { pool } = require('./db');
 
 
 let rezepte = [
+  {
+        id: 1,
+        name: "Spaghetti Carbonara",
+        bild_url: "https://img.chefkoch-cdn.de/rezepte/1298241234947062/bilder/1590571/crop-960x540/carbonara-wie-bei-der-mamma-in-rom.jpg",
+        zutaten: ["200g Spaghetti", "100g Pancetta", "2 Eigelb", "50g Parmesan"],
+        anleitung: "1. Nudeln kochen. 2. Pancetta anbraten. 3. Eigelb und Käse mischen. 4. Alles vermengen.",
+        zeit: "20 Min",
+        schwierigkeit: "leicht",
+        bewertung: 5
+    },
+    {
+        id: 2,
+        name: "Pfannkuchen",
+        bild_url: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?q=80&w=2070",
+        zutaten: ["250g Mehl", "2 Eier", "500ml Milch", "1 Prise Salz"],
+        anleitung: "1. Alle Zutaten zu einem glatten Teig verrühren. 2. In einer heißen Pfanne goldbraun ausbacken.",
+        zeit: "40 Min",
+        schwierigkeit: "leicht",
+        bewertung: 4
+    },
     {
         id: 3,
         name: "Bester Pizzateig",

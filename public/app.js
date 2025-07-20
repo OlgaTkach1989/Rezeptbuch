@@ -137,12 +137,13 @@ document.getElementById('neuesRezeptForm').addEventListener('submit', async (e) 
         bild_url: document.getElementById('bild_url').value,
         zutaten: document.getElementById('zutaten').value.split(',').map(z => z.trim()),
         anleitung: document.getElementById('anleitung').value,
-        zubereitungszeit: document.getElementById('zubereitungszeit').value,
+        zeit: document.getElementById('zubereitungszeit').value,
         schwierigkeit: document.getElementById('schwierigkeit').value,
         bewertung: parseInt(document.getElementById('bewertung').value)
     };
 
     try {
+        console.log('Abzuschickendes Rezept:', neuesRezept);
         const response = await fetch('http://localhost:3000/api/rezepte', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -164,10 +165,10 @@ document.getElementById('neuesRezeptForm').addEventListener('submit', async (e) 
     }
 });
 
-fetch('http://localhost:3000/api/rezepte/1/rate', {
+fetch('http://localhost:3000/api/rezepte/8/rate', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ rating: 5 })
+  body: JSON.stringify({ bewertung: 5 })
 })
 .then(res => res.json())
 .then(data => console.log(data));
