@@ -4,10 +4,10 @@ const rezeptModalTitel = document.getElementById('rezept-modal-title');
 const rezeptModalBody = document.getElementById('rezept-modal-body');
 const rezeptModal = new bootstrap.Modal(document.getElementById('rezept-modal'));
 
+
 let zuLoeschendeRezeptId = null;
 const bestaetigungsModal = new bootstrap.Modal(document.getElementById('bestaetigungsModal'));
 const bestaetigenLoeschenButton = document.getElementById('bestaetigenLoeschenButton');
-
 
 let rezepte = [];
 
@@ -15,7 +15,7 @@ async function ladeRezepte() {
   try {
     const response = await fetch('/api/rezepte');
     rezepte = await response.json();
-    renderRezepte();
+    zeigeRezepte();
   } catch (error) {
     console.error('Fehler beim Laden der Rezepte:', error);
   }
@@ -34,53 +34,19 @@ async function ladeRezepte(zutat = '') {
   }
 }
 
+let suchTimeout = null;
 
-document.getElementById('filter-button').addEventListener('click', () => {
-  const zutat = document.getElementById('zutat-input').value;
-  ladeRezepte(zutat);
+document.getElementById('zutat-input').addEventListener('input', () => {
+  clearTimeout(suchTimeout);
+
+  suchTimeout = setTimeout(() => {
+    const zutat = document.getElementById('zutat-input').value.trim();
+    ladeRezepte(zutat);
+  }, 300); // 300ms "debounce"
 });
 
 
 // Schritt 3: Funktion, die die Rezept-Karten anzeigt.
-function renderRezepte() {
-  const rezeptGalerie = document.getElementById('rezept-container');
-  rezeptGalerie.innerHTML = '';
-
-  rezepte.forEach(rezept => {
-    const rezeptKarteHTML = `
-      <div class="col-md-4 mb-4">
-        <div class="card shadow-sm h-100" style="cursor: pointer;" onclick="zeigeRezeptDetails('${rezept._id || rezept.id}')">
-          <img src="${rezept.bild_url}" class="card-img-top" alt="${rezept.name}" style="height: 200px; object-fit: cover;">
-          <div class="card-body">
-            <h5 class="card-title">${rezept.name}</h5>
-            <button class="btn btn-danger btn-sm loeschen-button" data-id="${rezept._id || rezept.id}">Löschen</button>
-          </div>
-        </div>
-      </div>
-    `;
-    rezeptGalerie.innerHTML += rezeptKarteHTML;
-  });
-
-
-  document.querySelectorAll('.loeschen-button').forEach(button => {
-    button.addEventListener('click', async function (event) {
-      event.stopPropagation(); 
-      const id = this.dataset.id;
-      bestaetigungsModal.show();
-      try {
-        const response = await fetch(`/api/rezepte/${id}`, { method: 'DELETE' });
-        if (response.ok) {
-          rezepte = rezepte.filter(r => (r._id || r.id) !== id);
-          renderRezepte();
-        } else {
-          alert('Fehler beim Löschen.');
-        }
-      } catch (error) {
-        alert('Netzwerkfehler beim Löschen.');
-      }
-    });
-  });
-}
 
   
 
@@ -152,28 +118,15 @@ function zeigeRezepte() {
             zeigeRezeptDetails(rezept.id);
         });
 
-        rezeptKarte.querySelector('.loeschen-button').addEventListener('click', async function () {
-            const id = parseInt(this.dataset.id);
-            try {
-                const response = await fetch(`/api/rezepte/${id}`, { method: 'DELETE' });
-                if (response.ok) {
-                    rezepte = rezepte.filter(r => r.id !== id);
-                    zeigeRezepte();
-                } else {
-                    alert('Fehler beim Löschen.');
-                }
-            } catch (error) {
-                alert('Netzwerkfehler beim Löschen.');
-            }
-        });
+        rezeptKarte.querySelector('.loeschen-button').addEventListener('click', function (event) {
+        event.stopPropagation(); 
+        zuLoeschendeRezeptId = this.dataset.id;
+        bestaetigungsModal.show();
+     });
 
         rezeptContainer.appendChild(rezeptKarte);
     });
 }
-
-
-
-
 
 
 document.getElementById('neuesRezeptForm').addEventListener('submit', async (e) => {
@@ -202,8 +155,9 @@ document.getElementById('neuesRezeptForm').addEventListener('submit', async (e) 
 
         // Formular zurücksetzen
         e.target.reset();
-        rezepte.push(neuesRezept);
-        renderRezepte();
+        const gespeichertesRezept = await response.json();
+        rezepte.push(gespeichertesRezept);
+        zeigeRezepte();
 
     } catch (err) {
         console.error('Fehler beim Speichern des Rezepts:', err);
@@ -223,30 +177,34 @@ fetch('/api/rezepte?zutat=Spagetti')
   .then(data => console.log(data));
 
 // Initialer Aufruf
-renderRezepte();
+zeigeRezepte();
+
 
 
 bestaetigenLoeschenButton.addEventListener('click', async () => {
-  console.log("Klick auf JA – zu löschende ID:", zuLoeschendeRezeptId);
-
   if (!zuLoeschendeRezeptId) return;
 
   try {
     const response = await fetch(`/api/rezepte/${zuLoeschendeRezeptId}`, {
       method: 'DELETE'
     });
+
     if (response.ok) {
-      rezepte = rezepte.filter(r => (r._id || r.id) !== zuLoeschendeRezeptId);
-      renderRezepte(rezepte);
+      // Rezept aus dem Array entfernen
+      rezepte = rezepte.filter(r => (r._id || r.id) !== parseInt(zuLoeschendeRezeptId));
+
+      
+      zeigeRezepte();  
+
+      // Modal schließen
       bestaetigungsModal.hide();
     } else {
       alert('Fehler beim Löschen.');
     }
-  } catch (error) {
+  } catch (err) {
     alert('Netzwerkfehler beim Löschen.');
   }
 
   zuLoeschendeRezeptId = null;
 });
-
 

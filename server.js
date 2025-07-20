@@ -117,9 +117,9 @@ let rezepte = [
     },
 ];
 
-// app.get('/api/rezepte',(req, res)=> {
-    // res.json(rezepte);
-// });
+app.get('/api/rezepte',(req, res)=> {
+    res.json(rezepte);
+});
 app.get('/api/rezepte', (req, res) => {
     const { zutat } = req.query;
 
